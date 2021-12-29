@@ -1,0 +1,20 @@
+{
+    "debug": true,
+    "server": {
+      "address": ":8000"
+    },
+    "context":{
+      "timeout":2
+    },
+    "database": {
+        "host": "localhost",
+        "port": "3306",
+        "user": "admin",
+        "pass": "admin123",
+        "name": "acp14"
+    },
+    "jwt" : {
+      "secret" : "supersecret12345!@#$%",
+      "expired" : 1
+    }
+  }
