@@ -21,17 +21,22 @@ package routes
 // }
 
 import (
+	_products "acp14/controllers/products"
 	_users "acp14/controllers/users"
 
 	"github.com/labstack/echo/v4"
 )
 
 type ControllerList struct {
-	UserController _users.UserController
+	UserController   _users.UserController
+	ProductContrller _products.ProductController
 }
 
 func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 	c.GET("users", cl.UserController.GetUser)
 	c.POST("users", cl.UserController.Register)
+	c.GET("products", cl.ProductContrller.GetProduct)
+	c.POST("product", cl.ProductContrller.CreateProduct)
+	c.DELETE("products/:id", cl.ProductContrller.DeleteProduct)
 
 }

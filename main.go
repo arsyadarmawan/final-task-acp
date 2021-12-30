@@ -1,9 +1,13 @@
 package main
 
 import (
+	_productUsecase "acp14/business/products"
 	_userUsecase "acp14/business/users"
+	_productController "acp14/controllers/products"
 	_userController "acp14/controllers/users"
+	_productRepo "acp14/drivers/databases/products"
 	_userRepo "acp14/drivers/databases/users"
+
 	"fmt"
 
 	_dbDriver "acp14/drivers/databases"
@@ -45,9 +49,15 @@ func main() {
 	userRepo := _userRepo.NewUserRepository(db)
 	userUseCase := _userUsecase.NewUserUsecase(userRepo, timeoutContext)
 	userController := _userController.NewUserController(userUseCase)
+
+	productRepo := _productRepo.NewProductRepository(db)
+	productUseCase := _productUsecase.NewProductUsecase(productRepo, timeoutContext)
+	productController := _productController.NewProductController(productUseCase)
+
 	e := echo.New()
 	routesInit := _route.ControllerList{
-		UserController: *userController,
+		UserController:   *userController,
+		ProductContrller: *productController,
 	}
 	routesInit.RouteRegister(e)
 
