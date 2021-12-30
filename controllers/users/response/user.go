@@ -11,7 +11,6 @@ type UserResponse struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
-	Token     string    `json:"token"`
 }
 
 func FromDomain(user _usersDomain.Domain) UserResponse {

@@ -16,13 +16,10 @@ type Domain struct {
 
 type Usecase interface {
 	GetUser(ctx context.Context) ([]Domain, error)
-	// Login(ctx context.Context, email string, password string) (Domain, error)
 	Register(ctx context.Context, data Domain) (int, error)
 }
 
 type Repository interface {
 	GetUser(ctx context.Context) ([]Domain, error)
 	Register(ctx context.Context, data Domain) (int, error)
-
-	// GetUserByEmail(ctx context.Context, email string) (Domain, error)
 }

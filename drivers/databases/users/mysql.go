@@ -20,7 +20,7 @@ func NewUserRepository(database *gorm.DB) _userDomain.Repository {
 
 func (repo *UserRepository) GetUser(ctx context.Context) ([]_userDomain.Domain, error) {
 	var users []User
-	result := repo.db.Find(users)
+	result := repo.db.Find(&users)
 
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
