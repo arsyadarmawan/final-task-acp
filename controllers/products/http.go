@@ -61,3 +61,8 @@ func (controller *ProductController) DeleteProduct(c echo.Context) error {
 	}
 	return _controllers.NewSuccessResponse(c, true)
 }
+
+// func (controller *ProductController) UpdateProduct(ctx echo.Context) error {
+// 	id, _ := strconv.Atoi(c.Param("id"))
+
+// }

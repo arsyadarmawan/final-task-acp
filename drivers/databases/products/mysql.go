@@ -47,13 +47,13 @@ func (repo *ProductRepository) GetProducts(ctx context.Context) ([]_productDomai
 func (repo *ProductRepository) DeleteProduct(ctx context.Context, id int) (int, error) {
 	product := Product{}
 	// fmt.Println(data)
-	result := repo.db.Model(&product).Where("id", id).Delete(&product)
+	result := repo.db.Delete(&product, id)
 	return int(result.RowsAffected), result.Error
 }
 
 func (repo *ProductRepository) UpdateProduct(ctx context.Context, id int) (int, error) {
 	product := Product{}
 	// fmt.Println(data)
-	result := repo.db.Model(&product).Where("id", id).Update("deleted_at", time.Now())
+	result := repo.db.Model(&product).Where("id", id).Update("UpdatedAt", time.Now())
 	return int(result.RowsAffected), result.Error
 }
