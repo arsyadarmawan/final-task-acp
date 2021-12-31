@@ -47,7 +47,7 @@ func (controller *ProductController) CreateProduct(c echo.Context) error {
 	if error != nil {
 		return _controllers.NewErrorResponse(c, error)
 	}
-	return _controllers.NewSuccessResponse(c, "sss")
+	return _controllers.NewSuccessResponse(c, dataDomain)
 }
 
 func (controller *ProductController) DeleteProduct(c echo.Context) error {
@@ -59,5 +59,5 @@ func (controller *ProductController) DeleteProduct(c echo.Context) error {
 	if error != nil {
 		return _controllers.NewErrorResponse(c, error)
 	}
-	return _controllers.NewSuccessResponse(c, "sss")
+	return _controllers.NewSuccessResponse(c, true)
 }
