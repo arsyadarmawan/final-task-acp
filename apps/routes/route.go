@@ -21,6 +21,7 @@ package routes
 // }
 
 import (
+	_categories "acp14/controllers/categories"
 	_products "acp14/controllers/products"
 	_users "acp14/controllers/users"
 
@@ -28,8 +29,9 @@ import (
 )
 
 type ControllerList struct {
-	UserController   _users.UserController
-	ProductContrller _products.ProductController
+	UserController     _users.UserController
+	ProductContrller   _products.ProductController
+	CategoryController _categories.CategoryController
 }
 
 func (cl *ControllerList) RouteRegister(c *echo.Echo) {
@@ -38,5 +40,8 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 	c.GET("products", cl.ProductContrller.GetProduct)
 	c.POST("product", cl.ProductContrller.CreateProduct)
 	c.DELETE("product/:id", cl.ProductContrller.DeleteProduct)
+	c.GET("categories", cl.ProductContrller.GetProduct)
+	c.POST("category", cl.ProductContrller.CreateProduct)
+	c.DELETE("category/:id", cl.ProductContrller.DeleteProduct)
 
 }
