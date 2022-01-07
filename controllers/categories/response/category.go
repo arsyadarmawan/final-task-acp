@@ -5,15 +5,15 @@ import (
 	"time"
 )
 
-type ProductResponse struct {
+type CategoryResponse struct {
 	Id        uint      `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	Name      string    `json:"name"`
 }
 
-func FromDomain(product _categoriesDomain.Domain) ProductResponse {
-	return ProductResponse{
+func FromDomain(product _categoriesDomain.Domain) CategoryResponse {
+	return CategoryResponse{
 		Id:        product.Id,
 		Name:      product.Name,
 		CreatedAt: product.CreatedAt,
@@ -21,8 +21,8 @@ func FromDomain(product _categoriesDomain.Domain) ProductResponse {
 	}
 }
 
-func ToListFromDomain(products []_categoriesDomain.Domain) []ProductResponse {
-	var result = []ProductResponse{}
+func ToListFromDomain(products []_categoriesDomain.Domain) []CategoryResponse {
+	var result = []CategoryResponse{}
 	for _, product := range products {
 		result = append(result, FromDomain(product))
 	}

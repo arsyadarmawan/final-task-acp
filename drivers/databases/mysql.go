@@ -1,6 +1,7 @@
 package databases
 
 import (
+	_cartDb "acp14/drivers/databases/carts"
 	_categoryDb "acp14/drivers/databases/categories"
 	_productDb "acp14/drivers/databases/products"
 	_userDb "acp14/drivers/databases/users"
@@ -40,5 +41,6 @@ func DBMigrate(db *gorm.DB) {
 		&_userDb.User{},
 		&_productDb.Product{},
 		&_categoryDb.Category{},
+		&_cartDb.Cart{},
 	)
 }

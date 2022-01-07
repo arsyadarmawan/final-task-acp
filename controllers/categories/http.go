@@ -14,25 +14,25 @@ type CategoryController struct {
 	usecase _categoriesDomain.Usecase
 }
 
-func NewCategoryController(productUsecase _categoriesDomain.Usecase) *CategoryController {
+func NewCategoryController(categoryUsecase _categoriesDomain.Usecase) *CategoryController {
 	return &CategoryController{
-		usecase: productUsecase,
+		usecase: categoryUsecase,
 	}
 }
 
 func (controller *CategoryController) GetCategories(c echo.Context) error {
 	ctx := c.Request().Context()
-	products, err := controller.usecase.GetCategories(ctx)
+	categories, err := controller.usecase.GetCategories(ctx)
 
 	if err != nil {
 		return _controllers.NewErrorResponse(c, err)
 	}
 
-	return _controllers.NewSuccessResponse(c, _response.ToListFromDomain(products))
+	return _controllers.NewSuccessResponse(c, _response.ToListFromDomain(categories))
 }
 
 func (controller *CategoryController) CreateCategory(c echo.Context) error {
-	var data _request.ProductRequest
+	var data _request.CategoryRequest
 	ctx := c.Request().Context()
 	if err := c.Bind(&data); err != nil {
 		return err
