@@ -17,13 +17,15 @@ type Domain struct {
 type Usecase interface {
 	GetProducts(ctx context.Context) ([]Domain, error)
 	CreateProduct(ctx context.Context, data Domain) (int, error)
-	DeleteProduct(ctx context.Context, id int) (int, error)
-	UpdateProduct(ctx context.Context, id int) (int, error)
+	GetProductById(ctx context.Context, id int) (Domain, error)
+	DeleteProduct(ctx context.Context, id int) (Domain, error)
+	UpdateProduct(ctx context.Context, updateProduct Domain) (Domain, error)
 }
 
 type Repository interface {
 	GetProducts(ctx context.Context) ([]Domain, error)
 	CreateProduct(ctx context.Context, data Domain) (int, error)
-	UpdateProduct(ctx context.Context, id int) (int, error)
-	DeleteProduct(ctx context.Context, id int) (int, error)
+	GetProductById(ctx context.Context, id int) (Domain, error)
+	UpdateProduct(ctx context.Context, updateProduct Domain) (Domain, error)
+	DeleteProduct(ctx context.Context, id int) (Domain, error)
 }

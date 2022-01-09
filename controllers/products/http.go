@@ -51,13 +51,58 @@ func (controller *ProductController) CreateProduct(c echo.Context) error {
 }
 
 func (controller *ProductController) DeleteProduct(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	var request _request.DeleteProduct
 	ctx := c.Request().Context()
-
-	_, error := controller.usecase.DeleteProduct(ctx, id)
-
-	if error != nil {
-		return _controllers.NewErrorResponse(c, error)
+	if err := c.Bind(&request); err != nil {
+		return err
 	}
-	return _controllers.NewSuccessResponse(c, true)
+	Product, err := controller.usecase.DeleteProduct(ctx, int(request.Id))
+
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+
+	return _controllers.NewSuccessResponse(c, _response.FromDomain(Product))
+}
+
+func (controller *ProductController) GetProductById(c echo.Context) error {
+	ctx := c.Request().Context()
+	productRequest := _request.ProductId{}
+	c.Bind(&productRequest) // error handling
+
+	value := c.Param("id")
+	number, err := strconv.ParseUint(value, 10, 32)
+
+	finalNumber := _request.ProductId{
+		Id: uint(number),
+	}
+
+	Product, err := controller.usecase.GetProductById(ctx, int(finalNumber.Id))
+
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+
+	return _controllers.NewSuccessResponse(c, _response.FromDomain(Product))
+}
+
+func (controller *ProductController) UpdateProduct(c echo.Context) error {
+	var request _request.ProductRequest
+	ctx := c.Request().Context()
+	if err := c.Bind(&request); err != nil {
+		return err
+	}
+
+	dataDomain := _productsDomain.Domain{
+		Id:         request.Id,
+		Name:       request.Name,
+		Price:      request.Price,
+		CategoryId: request.CategoryId,
+	}
+	product, err := controller.usecase.UpdateProduct(ctx, dataDomain)
+
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+	return _controllers.NewSuccessResponse(c, _response.FromDomain(product))
 }

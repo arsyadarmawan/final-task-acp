@@ -2,7 +2,6 @@ package users
 
 import (
 	"context"
-	"errors"
 	"time"
 )
 
@@ -31,18 +30,18 @@ func (uc *UserUsecase) Register(ctx context.Context, domain Domain) (int, error)
 	return val, err
 }
 
-func (uc *UserUsecase) Login(ctx context.Context, email string, password string) (string, error) {
-	var err error
-	var user Domain
-	user, err = uc.repository.GetByEmail(ctx, email)
+// func (uc *UserUsecase) Login(ctx context.Context, email string, password string) (string, error) {
+// 	var err error
+// 	var user Domain
+// 	user, err = uc.repository.GetByEmail(ctx, email)
 
-	if err != nil {
-		return "user not found", err
-	}
+// 	if err != nil {
+// 		return "user not found", err
+// 	}
 
-	if user.Password != password {
-		return "password not match to our record", errors.New("password not match to our record")
-	} else {
-		return "match", nil
-	}
-}
+// 	if user.Password != password {
+// 		return "password not match to our record", errors.New("password not match to our record")
+// 	} else {
+// 		return "match", nil
+// 	}
+// }

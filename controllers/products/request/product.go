@@ -14,6 +14,21 @@ type ProductRequest struct {
 	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
+type DeleteProduct struct {
+	Id uint `param:"id"`
+}
+
+type UpdateProduct struct {
+	Id         uint   `param:"id"`
+	Name       string `json:"name"`
+	CategoryId uint   `json:"category_id"`
+	Price      int    `json:"price"`
+}
+
+type ProductId struct {
+	Id uint `param:"category_id"`
+}
+
 func ToDomain(product ProductRequest) _productsDomain.Domain {
 	return _productsDomain.Domain{
 		Id:         product.Id,

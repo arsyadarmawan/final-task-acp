@@ -4,7 +4,6 @@ import (
 	_productDomain "acp14/business/products"
 	"acp14/helpers"
 	"context"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -30,6 +29,21 @@ func (repo *ProductRepository) CreateProduct(ctx context.Context, data _productD
 	return int(result.RowsAffected), result.Error
 }
 
+func (repo *ProductRepository) GetProductById(ctx context.Context, product_id int) (_productDomain.Domain, error) {
+	var productResult Product
+	result := repo.db.First(&productResult, product_id)
+
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return _productDomain.Domain{}, helpers.ErrNotFound
+		} else {
+			return _productDomain.Domain{}, helpers.ErrDbServer
+		}
+	}
+
+	return productResult.ToDomain(), nil
+}
+
 func (repo *ProductRepository) GetProducts(ctx context.Context) ([]_productDomain.Domain, error) {
 	var products []Product
 	result := repo.db.Find(&products)
@@ -44,16 +58,38 @@ func (repo *ProductRepository) GetProducts(ctx context.Context) ([]_productDomai
 	return ToListDomain(products), nil
 }
 
-func (repo *ProductRepository) DeleteProduct(ctx context.Context, id int) (int, error) {
-	product := Product{}
-	// fmt.Println(data)
-	result := repo.db.Delete(&product, id)
-	return int(result.RowsAffected), result.Error
+func (repo *ProductRepository) DeleteProduct(ctx context.Context, id int) (_productDomain.Domain, error) {
+	var productResult Product
+	// result := repo.db.Debug().Where("id = ?", id).Find(&product)
+	repo.db.Where("id = ?", &id).Find(&productResult)
+
+	result := repo.db.Delete(&Product{}, id)
+
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return _productDomain.Domain{}, helpers.ErrNotFound
+		} else {
+			return _productDomain.Domain{}, helpers.ErrDbServer
+		}
+	}
+	return productResult.ToDomain(), nil
 }
 
-func (repo *ProductRepository) UpdateProduct(ctx context.Context, id int) (int, error) {
-	product := Product{}
-	// fmt.Println(data)
-	result := repo.db.Model(&product).Where("id", id).Update("UpdatedAt", time.Now())
-	return int(result.RowsAffected), result.Error
+func (repo *ProductRepository) UpdateProduct(ctx context.Context, product _productDomain.Domain) (_productDomain.Domain, error) {
+	result := Product{
+		Name:       product.Name,
+		Price:      product.Price,
+		CategoryId: product.CategoryId,
+	}
+
+	query := repo.db.Model(&Product{}).Where("id = ?", product.Id).Updates(result).Find(&Product{})
+
+	if query.Error != nil {
+		if query.Error == gorm.ErrRecordNotFound {
+			return _productDomain.Domain{}, helpers.ErrNotFound
+		} else {
+			return _productDomain.Domain{}, helpers.ErrDbServer
+		}
+	}
+	return result.ToDomain(), nil
 }

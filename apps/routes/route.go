@@ -1,25 +1,5 @@
 package routes
 
-// import (
-// 	"acp14/controllers"
-
-// 	"github.com/labstack/echo/v4"
-// )
-
-// func New() *echo.Echo {
-// 	// Init Echo
-// 	e := echo.New()
-
-// 	// Routing
-// 	v1 := e.Group("/api/v1/")
-// 	v1.GET("users", controllers.GetUserController)
-// 	v1.POST("product", controllers.CreateProduct)
-// 	v1.GET("products", controllers.GetProductsAll)
-// 	e.GET("products/:id", controllers.GetDetailProduct)
-
-// 	return e
-// }
-
 import (
 	_carts "acp14/controllers/carts"
 	_categories "acp14/controllers/categories"
@@ -28,7 +8,7 @@ import (
 	_users "acp14/controllers/users"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	// "github.com/labstack/echo/v4/middleware"
 )
 
 type ControllerList struct {
@@ -42,16 +22,20 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 
 	c.GET("users", cl.UserController.GetUser)
 	c.POST("users", cl.UserController.Register)
+
 	c.GET("products", cl.ProductContrller.GetProduct)
+	c.GET("product/:id", cl.ProductContrller.GetProductById)
 	c.POST("product", cl.ProductContrller.CreateProduct)
 	c.DELETE("product/:id", cl.ProductContrller.DeleteProduct)
-	c.GET("categories", cl.ProductContrller.GetProduct)
-	c.POST("category", cl.ProductContrller.CreateProduct)
-	c.DELETE("category/:id", cl.ProductContrller.DeleteProduct)
+
+	c.GET("categories", cl.CategoryController.GetCategories)
+	c.POST("category", cl.CategoryController.CreateCategory)
+	c.DELETE("category/:id", cl.CategoryController.DeleteCategory)
+
 	c.GET("carts", cl.ProductContrller.GetProduct)
 	c.POST("cart", cl.ProductContrller.CreateProduct)
 	c.DELETE("cart/:id", cl.ProductContrller.DeleteProduct)
 
-	j := c.Group("/access_token")
-	j.Use(middleware.JWT([]byte("ThisisSecretGais")))
+	// j := c.Group("/access_token")
+	// j.Use(middleware.JWT([]byte("ThisisSecretGais")))
 }

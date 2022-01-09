@@ -25,6 +25,14 @@ func (uc *ProductUsecase) GetProducts(ctx context.Context) ([]Domain, error) {
 	return data, nil
 }
 
+func (uc *ProductUsecase) GetProductById(ctx context.Context, id int) (Domain, error) {
+	Product, err := uc.repo.GetProductById(ctx, id)
+	if err != nil {
+		return Domain{}, err
+	}
+	return Product, nil
+}
+
 func (uc *ProductUsecase) CreateProduct(ctx context.Context, domain Domain) (int, error) {
 	var productRow int
 	var err error
@@ -32,16 +40,18 @@ func (uc *ProductUsecase) CreateProduct(ctx context.Context, domain Domain) (int
 	return productRow, err
 }
 
-func (uc *ProductUsecase) DeleteProduct(ctx context.Context, id int) (int, error) {
-	var productRow int
-	var err error
-	productRow, err = uc.repo.DeleteProduct(ctx, id)
-	return productRow, err
+func (uc *ProductUsecase) DeleteProduct(ctx context.Context, id int) (Domain, error) {
+	product, err := uc.repo.DeleteProduct(ctx, id)
+	if err != nil {
+		return Domain{}, err
+	}
+	return product, nil
 }
 
-func (uc *ProductUsecase) UpdateProduct(ctx context.Context, id int) (int, error) {
-	var productRow int
-	var err error
-	productRow, err = uc.repo.UpdateProduct(ctx, id)
-	return productRow, err
+func (uc *ProductUsecase) UpdateProduct(ctx context.Context, product Domain) (Domain, error) {
+	result, err := uc.repo.UpdateProduct(ctx, product)
+	if err != nil {
+		return Domain{}, err
+	}
+	return result, nil
 }
