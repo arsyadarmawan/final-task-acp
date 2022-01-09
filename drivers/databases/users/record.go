@@ -14,7 +14,7 @@ type User struct {
 	DeletedAt gorm.DeletedAt
 	Name      string
 	Email     string `gorm:"not null;unique"`
-	Password  string
+	Password  string `gorm:"size:100"`
 }
 
 func (user *User) ToDomain() _userDomain.Domain {

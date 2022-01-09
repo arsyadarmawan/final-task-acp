@@ -22,6 +22,7 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 
 	c.GET("users", cl.UserController.GetUser)
 	c.POST("users", cl.UserController.Register)
+	c.POST("login", cl.UserController.Login)
 
 	c.GET("products", cl.ProductContrller.GetProduct)
 	c.GET("product/:id", cl.ProductContrller.GetProductById)

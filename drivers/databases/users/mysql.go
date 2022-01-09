@@ -41,3 +41,23 @@ func (repo *UserRepository) Register(ctx context.Context, data _userDomain.Domai
 	result := repo.db.Create(&user)
 	return int(result.RowsAffected), result.Error
 }
+
+func (repo *UserRepository) GetByEmail(ctx context.Context, email string) (_userDomain.Domain, error) {
+	var user User
+	result := repo.db.Where("email = ?", email).First(&user)
+	if result.Error != nil {
+		// fmt.Println(result.Error)
+		return _userDomain.Domain{}, result.Error
+		// if result.Error == gorm.ErrRecordNotFound {
+
+		// } else {
+		// 	return _userDomain.Domain{}, helpers.ErrDbServer
+		// }
+	}
+	return _userDomain.Domain{
+		Id:       user.Id,
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password,
+	}, nil
+}

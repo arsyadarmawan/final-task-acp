@@ -52,3 +52,18 @@ func (controller *UserController) Register(c echo.Context) error {
 	}
 	return _controllers.NewSuccessResponse(c, dataDomain)
 }
+
+func (controller *UserController) Login(c echo.Context) error {
+	var data _request.UserRequest
+	ctx := c.Request().Context()
+
+	if err := c.Bind(&data); err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+	// fmt.Println(data.Email, data.Password)
+	token, err := controller.usecase.Login(ctx, data.Email, data.Password)
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+	return _controllers.NewSuccessResponse(c, token)
+}
