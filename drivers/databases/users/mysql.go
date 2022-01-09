@@ -5,6 +5,7 @@ import (
 	"acp14/helpers"
 	"context"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -16,6 +17,11 @@ func NewUserRepository(database *gorm.DB) _userDomain.Repository {
 	return &UserRepository{
 		db: database,
 	}
+}
+
+func HashPassword(password string) string {
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes)
 }
 
 func (repo *UserRepository) GetUser(ctx context.Context) ([]_userDomain.Domain, error) {
@@ -36,7 +42,7 @@ func (repo *UserRepository) Register(ctx context.Context, data _userDomain.Domai
 	user := User{
 		Name:     data.Name,
 		Email:    data.Email,
-		Password: data.Password,
+		Password: HashPassword(data.Password),
 	}
 	result := repo.db.Create(&user)
 	return int(result.RowsAffected), result.Error
