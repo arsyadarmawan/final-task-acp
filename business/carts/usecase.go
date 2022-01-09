@@ -39,9 +39,10 @@ func (uc *CartUsecase) DeleteCart(ctx context.Context, id int) (int, error) {
 	return productRow, err
 }
 
-func (uc *CartUsecase) UpdateCart(ctx context.Context, id int) (int, error) {
-	var productRow int
-	var err error
-	productRow, err = uc.repo.UpdateCart(ctx, id)
-	return productRow, err
+func (uc *CartUsecase) UpdateCart(ctx context.Context, cart Domain) (Domain, error) {
+	result, err := uc.repo.UpdateCart(ctx, cart)
+	if err != nil {
+		return Domain{}, err
+	}
+	return result, nil
 }

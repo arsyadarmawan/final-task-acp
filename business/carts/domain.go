@@ -19,12 +19,12 @@ type Usecase interface {
 	GetCarts(ctx context.Context) ([]Domain, error)
 	CreateCart(ctx context.Context, data Domain) (int, error)
 	DeleteCart(ctx context.Context, id int) (int, error)
-	UpdateCart(ctx context.Context, id int) (int, error)
+	UpdateCart(ctx context.Context, updateCart Domain) (Domain, error)
 }
 
 type Repository interface {
 	GetCarts(ctx context.Context) ([]Domain, error)
 	CreateCart(ctx context.Context, data Domain) (int, error)
 	DeleteCart(ctx context.Context, id int) (int, error)
-	UpdateCart(ctx context.Context, id int) (int, error)
+	UpdateCart(ctx context.Context, updateCart Domain) (Domain, error)
 }

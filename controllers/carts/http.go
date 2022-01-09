@@ -41,7 +41,7 @@ func (controller *CartController) CreateCart(c echo.Context) error {
 	dataDomain := _cartsDomain.Domain{
 		Name:      data.Name,
 		Total:     data.Total,
-		Price:     uint(data.Total) * uint(data.Price),
+		Price:     uint(data.Price),
 		ProductId: uint(data.ProductId),
 	}
 
@@ -64,4 +64,28 @@ func (controller *CartController) DeleteCart(c echo.Context) error {
 		return _controllers.NewErrorResponse(c, error)
 	}
 	return _controllers.NewSuccessResponse(c, true)
+}
+
+func (controller *CartController) UpdateCart(c echo.Context) error {
+	var request _request.UpdateRequest
+	ctx := c.Request().Context()
+	if err := c.Bind(&request); err != nil {
+		return err
+	}
+
+	dataDomain := _cartsDomain.Domain{
+		Id: request.Id,
+		// Name:       request.Name,
+		// Price:     uint(request.Price),
+		// ProductId: request.ProductId,
+		Total: request.Total,
+	}
+
+	fmt.Println(dataDomain)
+	product, err := controller.usecase.UpdateCart(ctx, dataDomain)
+
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+	return _controllers.NewSuccessResponse(c, _response.FromDomain(product))
 }

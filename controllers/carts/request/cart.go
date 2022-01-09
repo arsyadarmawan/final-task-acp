@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+type DeleteCart struct {
+	Id uint `param:"id"`
+}
+
 type CartRequest struct {
 	Id        uint      `json:"id"`
 	Name      string    `json:"name"`
@@ -13,6 +17,11 @@ type CartRequest struct {
 	ProductId uint      `json:"product_id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type UpdateRequest struct {
+	Id    uint `param:"id"`
+	Total uint `json:"total"`
 }
 
 func ToDomain(data CartRequest) _cartsDomain.Domain {

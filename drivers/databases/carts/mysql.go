@@ -4,7 +4,6 @@ import (
 	_cartsDomain "acp14/business/carts"
 	"acp14/helpers"
 	"context"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -52,9 +51,18 @@ func (repo *CartRepository) DeleteCart(ctx context.Context, id int) (int, error)
 	return int(result.RowsAffected), result.Error
 }
 
-func (repo *CartRepository) UpdateCart(ctx context.Context, id int) (int, error) {
-	cart := Cart{}
-	// fmt.Println(data)
-	result := repo.db.Model(&cart).Where("id", id).Update("UpdatedAt", time.Now())
-	return int(result.RowsAffected), result.Error
+func (repo *CartRepository) UpdateCart(ctx context.Context, domain _cartsDomain.Domain) (_cartsDomain.Domain, error) {
+	cart := Cart{
+		Total: domain.Total,
+	}
+	query := repo.db.Model(&Cart{}).Where("id = ?", domain.Id).Updates(cart).Find(&Cart{})
+
+	if query.Error != nil {
+		if query.Error == gorm.ErrRecordNotFound {
+			return _cartsDomain.Domain{}, helpers.ErrNotFound
+		} else {
+			return _cartsDomain.Domain{}, helpers.ErrDbServer
+		}
+	}
+	return cart.ToDomain(), nil
 }
