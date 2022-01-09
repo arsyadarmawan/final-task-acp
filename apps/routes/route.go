@@ -25,6 +25,7 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 
 	c.GET("products", cl.ProductContrller.GetProduct)
 	c.GET("product/:id", cl.ProductContrller.GetProductById)
+	c.PUT("product/:id", cl.ProductContrller.UpdateProduct)
 	c.POST("product", cl.ProductContrller.CreateProduct)
 	c.DELETE("product/:id", cl.ProductContrller.DeleteProduct)
 
@@ -32,9 +33,9 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 	c.POST("category", cl.CategoryController.CreateCategory)
 	c.DELETE("category/:id", cl.CategoryController.DeleteCategory)
 
-	c.GET("carts", cl.ProductContrller.GetProduct)
-	c.POST("cart", cl.ProductContrller.CreateProduct)
-	c.DELETE("cart/:id", cl.ProductContrller.DeleteProduct)
+	c.GET("carts", cl.CartController.GetCarts)
+	c.POST("cart", cl.CartController.CreateCart)
+	c.DELETE("cart/:id", cl.CartController.DeleteCart)
 
 	// j := c.Group("/access_token")
 	// j.Use(middleware.JWT([]byte("ThisisSecretGais")))

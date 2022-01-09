@@ -5,6 +5,7 @@ import (
 	_controllers "acp14/controllers"
 	_request "acp14/controllers/products/request"
 	_response "acp14/controllers/products/response"
+	"fmt"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -87,7 +88,7 @@ func (controller *ProductController) GetProductById(c echo.Context) error {
 }
 
 func (controller *ProductController) UpdateProduct(c echo.Context) error {
-	var request _request.ProductRequest
+	var request _request.UpdateProduct
 	ctx := c.Request().Context()
 	if err := c.Bind(&request); err != nil {
 		return err
@@ -96,9 +97,11 @@ func (controller *ProductController) UpdateProduct(c echo.Context) error {
 	dataDomain := _productsDomain.Domain{
 		Id:         request.Id,
 		Name:       request.Name,
-		Price:      request.Price,
+		Price:      uint(request.Price),
 		CategoryId: request.CategoryId,
 	}
+
+	fmt.Println(dataDomain)
 	product, err := controller.usecase.UpdateProduct(ctx, dataDomain)
 
 	if err != nil {

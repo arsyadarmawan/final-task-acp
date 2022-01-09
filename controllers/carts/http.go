@@ -5,6 +5,7 @@ import (
 	_controllers "acp14/controllers"
 	_request "acp14/controllers/carts/request"
 	_response "acp14/controllers/carts/response"
+	"fmt"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -38,8 +39,13 @@ func (controller *CartController) CreateCart(c echo.Context) error {
 		return err
 	}
 	dataDomain := _cartsDomain.Domain{
-		Name: data.Name,
+		Name:      data.Name,
+		Total:     data.Total,
+		Price:     uint(data.Total) * uint(data.Price),
+		ProductId: uint(data.ProductId),
 	}
+
+	fmt.Println(dataDomain)
 	_, error := controller.usecase.CreateCart(ctx, dataDomain)
 
 	if error != nil {
