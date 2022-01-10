@@ -1,26 +1,18 @@
-# Builder
-FROM golang:1.14.2-alpine3.11 as builder
-
-RUN apk update && apk upgrade && \
-    apk --update add git make
-
+FROM golang:1.17-alpine AS build
 WORKDIR /app
+COPY go.mod .
+COPY go.sum .
+
+
+RUN go mod download
 
 COPY . .
+RUN go build -o app
 
-RUN make engine
-
-# Distribution
 FROM alpine:latest
-
-RUN apk update && apk upgrade && \
-    apk --update --no-cache add tzdata && \
-    mkdir /app 
-
-WORKDIR /app 
-
-EXPOSE 9090
-
-COPY --from=builder /app/engine /app
-
-CMD /app/engine
+WORKDIR /app
+COPY --from=build /app/app /acp14
+COPY --from=build /app/apps/configs/config.json apps/configs/config.json
+COPY --from=build /app/env env
+EXPOSE 8080
+CMD ["/acp14"]
