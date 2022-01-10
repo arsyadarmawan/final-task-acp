@@ -47,7 +47,7 @@ func (repo *ProductRepository) GetProductById(ctx context.Context, product_id in
 
 func (repo *ProductRepository) SearchCategoy(ctx context.Context, category_id int) ([]_productDomain.Domain, error) {
 	var productResult []Product
-	result := repo.db.Where("category_id = ?", category_id).First(&productResult)
+	result := repo.db.Where("category_id = ?", category_id).Find(&productResult)
 	fmt.Println(result)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {

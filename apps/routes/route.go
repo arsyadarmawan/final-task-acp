@@ -8,7 +8,7 @@ import (
 	_users "acp14/controllers/users"
 
 	"github.com/labstack/echo/v4"
-	// "github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type ControllerList struct {
@@ -21,6 +21,9 @@ type ControllerList struct {
 func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 
 	j := c.Group("api/")
+
+	r := c.Group("jwt")
+	r.Use(middleware.JWT([]byte("secret")))
 
 	j.GET("users", cl.UserController.GetUser)
 	j.POST("users", cl.UserController.Register)

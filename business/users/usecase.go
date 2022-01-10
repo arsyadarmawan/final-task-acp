@@ -1,6 +1,7 @@
 package users
 
 import (
+	_middleware "acp14/apps/middlewares"
 	"context"
 	"errors"
 	"time"
@@ -43,6 +44,6 @@ func (uc *UserUsecase) Login(ctx context.Context, email string, password string)
 	if user.Password != password {
 		return "password not match to our record", errors.New("password not match to our record")
 	} else {
-		return "match", nil
+		return _middleware.CreateToken(user.Id)
 	}
 }
