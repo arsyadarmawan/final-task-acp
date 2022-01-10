@@ -35,20 +35,20 @@ jobs:
         push: true
         tags: 74112/acp14-final-project:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
     
-      - name: Login to SSH and Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            docker pull 74112/acp14-final-project; \
-            docker rm -f acp14-final-project; \
-            touch myenv
-            echo 'DBUSERNAME=${{ secrets.RDS_USERNAME }}'
-            docker run -d --network host --name acp14-final-project 74112/acp14-final-project
+  #     - name: Login to SSH and Deploy
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.SSH_HOST }}
+  #         username: ${{ secrets.SSH_USERNAME }}
+  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         script: |
+  #           docker pull 74112/acp14-final-project; \
+  #           docker rm -f acp14-final-project; \
+  #           touch myenv
+  #           echo 'DBUSERNAME=${{ secrets.RDS_USERNAME }}'
+  #           docker run -d --network host --name acp14-final-project 74112/acp14-final-project
