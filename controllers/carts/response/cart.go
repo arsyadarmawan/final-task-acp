@@ -12,6 +12,7 @@ type CartResponse struct {
 	Name      string    `json:"name"`
 	Price     uint      `json:"price,omitempty"`
 	Total     uint      `json:"total,omitempty"`
+	UserId    uint      `json:"user_id,omitempty"`
 	ProductId uint      `json:"product_id,omitempty"`
 }
 
@@ -21,6 +22,8 @@ func FromDomain(data _cartsDomain.Domain) CartResponse {
 		Name:      data.Name,
 		CreatedAt: data.CreatedAt,
 		UpdatedAt: data.UpdatedAt,
+		ProductId: data.ProductId,
+		UserId:    data.UserId,
 		Total:     data.Total,
 		Price:     data.Price,
 	}

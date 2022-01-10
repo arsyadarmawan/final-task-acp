@@ -12,6 +12,7 @@ type Cart struct {
 	Name      string `gorm:"not null;unique"`
 	Price     uint
 	ProductId uint
+	UserId    uint
 	Total     uint
 	CreatedAt time.Time
 	UpdatedAt time.Time

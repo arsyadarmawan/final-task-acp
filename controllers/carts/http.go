@@ -42,6 +42,7 @@ func (controller *CartController) CreateCart(c echo.Context) error {
 		Name:      data.Name,
 		Total:     data.Total,
 		Price:     uint(data.Price),
+		UserId:    uint(data.UserId),
 		ProductId: uint(data.ProductId),
 	}
 

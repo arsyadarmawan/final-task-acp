@@ -4,6 +4,7 @@ import (
 	_cartsDomain "acp14/business/carts"
 	"acp14/helpers"
 	"context"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -20,12 +21,13 @@ func NewCategoryRepository(database *gorm.DB) _cartsDomain.Repository {
 
 func (repo *CartRepository) CreateCart(ctx context.Context, data _cartsDomain.Domain) (int, error) {
 	cart := Cart{
-		Name:      data.Name,
-		Total:     data.Total,
+		Name:  data.Name,
+		Total: data.Total,
+
 		Price:     data.Price,
 		ProductId: data.ProductId,
 	}
-	// fmt.Println(data)
+	fmt.Println(cart.UserId)
 	result := repo.db.Create(&cart)
 	return int(result.RowsAffected), result.Error
 }

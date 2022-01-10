@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: article_management_api
+    container_name: commerce_management_api
     ports:
       - 9090:9090
     depends_on:
@@ -18,15 +18,15 @@ services:
     container_name: go_clean_arch_mysql
     command: mysqld --user=root
     volumes:
-      - ./article.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./commerce.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 3306:3306
     environment:
-      - MYSQL_DATABASE=article
+      - MYSQL_DATABASE=commerce
       - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
+      - MYSQL_PASSWORD=admin123
       - MYSQL_ROOT_PASSWORD=root
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
+    #   timeout: 5s
+    #   retries: 10
