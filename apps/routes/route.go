@@ -20,23 +20,26 @@ type ControllerList struct {
 
 func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 
-	c.GET("users", cl.UserController.GetUser)
-	c.POST("users", cl.UserController.Register)
-	c.POST("login", cl.UserController.Login)
+	j := c.Group("api/")
 
-	c.GET("products", cl.ProductContrller.GetProduct)
-	c.GET("product/:id", cl.ProductContrller.GetProductById)
-	c.PUT("product/:id", cl.ProductContrller.UpdateProduct)
-	c.POST("product", cl.ProductContrller.CreateProduct)
-	c.DELETE("product/:id", cl.ProductContrller.DeleteProduct)
+	j.GET("users", cl.UserController.GetUser)
+	j.POST("users", cl.UserController.Register)
+	j.POST("login", cl.UserController.Login)
 
-	c.GET("categories", cl.CategoryController.GetCategories)
-	c.POST("category", cl.CategoryController.CreateCategory)
-	c.DELETE("category/:id", cl.CategoryController.DeleteCategory)
+	j.GET("products", cl.ProductContrller.GetProduct)
+	j.GET("product/:id", cl.ProductContrller.GetProductById)
+	j.GET("category/products/:id", cl.ProductContrller.SearchCategoy)
+	j.PUT("product/:id", cl.ProductContrller.UpdateProduct)
+	j.POST("product", cl.ProductContrller.CreateProduct)
+	j.DELETE("product/:id", cl.ProductContrller.DeleteProduct)
 
-	c.GET("carts", cl.CartController.GetCarts)
-	c.POST("cart", cl.CartController.CreateCart)
-	c.DELETE("cart/:id", cl.CartController.DeleteCart)
+	j.GET("categories", cl.CategoryController.GetCategories)
+	j.POST("category", cl.CategoryController.CreateCategory)
+	j.DELETE("category/:id", cl.CategoryController.DeleteCategory)
+
+	j.GET("carts", cl.CartController.GetCarts)
+	j.POST("cart", cl.CartController.CreateCart)
+	j.DELETE("cart/:id", cl.CartController.DeleteCart)
 
 	// j := c.Group("/access_token")
 	// j.Use(middleware.JWT([]byte("ThisisSecretGais")))

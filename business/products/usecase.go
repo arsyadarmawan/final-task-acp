@@ -55,3 +55,11 @@ func (uc *ProductUsecase) UpdateProduct(ctx context.Context, product Domain) (Do
 	}
 	return result, nil
 }
+
+func (uc *ProductUsecase) SearchCategoy(ctx context.Context, id int) ([]Domain, error) {
+	result, err := uc.repo.SearchCategoy(ctx, id)
+	if err != nil {
+		return []Domain{}, err
+	}
+	return result, nil
+}

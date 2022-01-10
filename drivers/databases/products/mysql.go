@@ -4,6 +4,7 @@ import (
 	_productDomain "acp14/business/products"
 	"acp14/helpers"
 	"context"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -42,6 +43,21 @@ func (repo *ProductRepository) GetProductById(ctx context.Context, product_id in
 	}
 
 	return productResult.ToDomain(), nil
+}
+
+func (repo *ProductRepository) SearchCategoy(ctx context.Context, category_id int) ([]_productDomain.Domain, error) {
+	var productResult []Product
+	result := repo.db.Where("category_id = ?", category_id).First(&productResult)
+	fmt.Println(result)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return []_productDomain.Domain{}, helpers.ErrNotFound
+		} else {
+			return []_productDomain.Domain{}, helpers.ErrDbServer
+		}
+	}
+
+	return ToListDomain(productResult), nil
 }
 
 func (repo *ProductRepository) GetProducts(ctx context.Context) ([]_productDomain.Domain, error) {

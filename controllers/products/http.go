@@ -32,6 +32,27 @@ func (controller *ProductController) GetProduct(c echo.Context) error {
 	return _controllers.NewSuccessResponse(c, _response.ToListFromDomain(products))
 }
 
+func (controller *ProductController) SearchCategoy(c echo.Context) error {
+	ctx := c.Request().Context()
+	productRequest := _request.CategoryId{}
+	c.Bind(&productRequest) // error handling
+
+	value := c.Param("id")
+	number, err := strconv.ParseUint(value, 10, 32)
+
+	IdCategory := _request.CategoryId{
+		Id: uint(number),
+	}
+
+	products, err := controller.usecase.SearchCategoy(ctx, int(IdCategory.Id))
+
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+
+	return _controllers.NewSuccessResponse(c, _response.ToListFromDomain(products))
+}
+
 func (controller *ProductController) CreateProduct(c echo.Context) error {
 	var data _request.ProductRequest
 	ctx := c.Request().Context()

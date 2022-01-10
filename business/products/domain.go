@@ -19,6 +19,7 @@ type Usecase interface {
 	CreateProduct(ctx context.Context, data Domain) (int, error)
 	GetProductById(ctx context.Context, id int) (Domain, error)
 	DeleteProduct(ctx context.Context, id int) (Domain, error)
+	SearchCategoy(ctx context.Context, id int) ([]Domain, error)
 	UpdateProduct(ctx context.Context, updateProduct Domain) (Domain, error)
 }
 
@@ -26,6 +27,7 @@ type Repository interface {
 	GetProducts(ctx context.Context) ([]Domain, error)
 	CreateProduct(ctx context.Context, data Domain) (int, error)
 	GetProductById(ctx context.Context, id int) (Domain, error)
+	SearchCategoy(ctx context.Context, id int) ([]Domain, error)
 	UpdateProduct(ctx context.Context, updateProduct Domain) (Domain, error)
 	DeleteProduct(ctx context.Context, id int) (Domain, error)
 }

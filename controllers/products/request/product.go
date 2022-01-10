@@ -26,6 +26,10 @@ type UpdateProduct struct {
 }
 
 type ProductId struct {
+	Id uint `param:"product_id"`
+}
+
+type CategoryId struct {
 	Id uint `param:"category_id"`
 }
 
