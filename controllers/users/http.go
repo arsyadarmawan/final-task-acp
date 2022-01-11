@@ -61,6 +61,7 @@ func (controller *UserController) Login(c echo.Context) error {
 		return _controllers.NewErrorResponse(c, err)
 	}
 	// fmt.Println(data.Email, data.Password)
+	// passwordHash := CheckPasswordHash(data.Password)
 	token, err := controller.usecase.Login(ctx, data.Email, data.Password)
 	if err != nil {
 		return _controllers.NewErrorResponse(c, err)

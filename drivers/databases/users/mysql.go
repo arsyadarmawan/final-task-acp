@@ -42,7 +42,7 @@ func (repo *UserRepository) Register(ctx context.Context, data _userDomain.Domai
 	user := User{
 		Name:     data.Name,
 		Email:    data.Email,
-		Password: HashPassword(data.Password),
+		Password: data.Password,
 	}
 	result := repo.db.Create(&user)
 	return int(result.RowsAffected), result.Error
